@@ -1,40 +1,15 @@
 import { Plugin } from "obsidian";
 
 export default class FocusMode extends Plugin {
-    focusModeActive = false;
+    collapseSidebarsActive = false;
 
     maximisedClass = "maximised";
     focusModeClass = "focus-mode";
     superFocusModeClass = "super-focus-mode";
+    sidebarCollapsedClass = "sidebars-collapsed";
 
-    leftSplitCollapsed: boolean;
-    rightSplitCollapsed: boolean;
-
-    storeSplitsValues() {
-        // @ts-ignore
-        this.leftSplitCollapsed = this.app.workspace.leftSplit.collapsed;
-        // @ts-ignore
-        this.rightSplitCollapsed = this.app.workspace.rightSplit.collapsed;
-    }
-
-    collapseSplits() {
-        // @ts-ignore
-        this.app.workspace.leftSplit.collapse();
-        // @ts-ignore
-        this.app.workspace.rightSplit.collapse();
-    }
-
-    restoreSplits() {
-        if (!this.leftSplitCollapsed) {
-            // @ts-ignore
-            this.app.workspace.leftSplit.expand();
-        }
-
-        if (!this.rightSplitCollapsed) {
-            // @ts-ignore
-            this.app.workspace.rightSplit.expand();
-        }
-    }
+    leftSidebarWasCollapsed: boolean;
+    rightSidebarWasCollapsed: boolean;
 
     removeExtraneousClasses() {
         if (
@@ -57,8 +32,16 @@ export default class FocusMode extends Plugin {
         }
     }
 
-    sharedFocusModeCommands() {
-        this.focusModeActive = true;
+    sidebarIsOpen() {
+        return (
+            !this.app.workspace.leftSplit.collapsed ||
+            !this.app.workspace.rightSplit.collapsed
+        );
+    }
+
+    collapseSidebars() {
+        this.leftSidebarWasCollapsed = this.app.workspace.leftSplit.collapsed;
+        this.rightSidebarWasCollapsed = this.app.workspace.rightSplit.collapsed;
 
         // @ts-ignore
         this.app.on("active-leaf-change", () => {
@@ -72,73 +55,30 @@ export default class FocusMode extends Plugin {
             } catch (ignore) {}
         });
 
-        if (!document.body.classList.contains(this.focusModeClass)) {
-            this.storeSplitsValues();
-        }
+        // if (!document.body.classList.contains(this.focusModeClass)) {
+        //     this.storeSplitsValues();
+        // }
 
-        this.collapseSplits();
-    }
-
-    enableSuperFocusMode() {
-        this.sharedFocusModeCommands();
-
-        // @ts-ignore
-        this.app.workspace.rootSplit.containerEl.toggleClass(
-            this.maximisedClass,
-            // @ts-ignore
-            !this.app.workspace.rootSplit.containerEl.hasClass(
-                this.maximisedClass
-            )
-        );
-
-        document.body.classList.toggle(
-            this.superFocusModeClass,
-            !document.body.classList.contains(this.superFocusModeClass)
-        );
-
-        if (!document.body.classList.contains(this.focusModeClass)) {
-            document.body.classList.add(this.focusModeClass);
-        }
-
-        if (document.body.classList.contains(this.superFocusModeClass)) {
-            Array.from(
-                document.querySelectorAll(
-                    `.${this.superFocusModeClass} .workspace-split`
-                )
-            ).forEach((node) => {
-                const theNode = node as HTMLElement;
-                const hasActiveKids = theNode.querySelector(".mod-active");
-                if (hasActiveKids) {
-                    theNode.style.display = "flex";
-                } else {
-                    theNode.style.display = "none";
-                }
-            });
-        }
-
-        // @ts-ignore
-        this.app.workspace.onLayoutChange();
-    }
-
-    enableFocusMode() {
-        this.sharedFocusModeCommands();
+        this.app.workspace.leftSplit.collapse();
+        this.app.workspace.rightSplit.collapse();
 
         this.removeExtraneousClasses();
-
-        document.body.classList.toggle(
-            this.focusModeClass,
-            !document.body.classList.contains(this.focusModeClass)
-        );
     }
 
-    disableFocusMode() {
+    restoreSidebars() {
         this.removeExtraneousClasses();
 
-        if (document.body.classList.contains(this.focusModeClass)) {
-            document.body.classList.remove(this.focusModeClass);
+        // if (document.body.classList.contains(this.focusModeClass)) {
+        //     document.body.classList.remove(this.focusModeClass);
+        // }
+
+        if (!this.leftSidebarWasCollapsed) {
+            this.app.workspace.leftSplit.expand();
         }
 
-        this.restoreSplits();
+        if (!this.rightSidebarWasCollapsed) {
+            this.app.workspace.rightSplit.expand();
+        }
 
         Array.from(document.querySelectorAll(".workspace-split")).forEach(
             (node) => {
@@ -146,47 +86,59 @@ export default class FocusMode extends Plugin {
                 theNode.style.display = "flex";
             }
         );
-
-        this.focusModeActive = false;
     }
 
-    toggleFocusMode(superFocus: boolean = false) {
-        if (superFocus) {
-            this.enableSuperFocusMode();
-        } else if (this.focusModeActive) {
-            this.disableFocusMode();
+    toggleSidebars() {
+        console.log("\n\n\n\n\n");
+        console.log("BEFORE toggle");
+        console.log(
+            `this.leftSidebarWasCollapsed: ${this.leftSidebarWasCollapsed}`
+        );
+        console.log(
+            `this.rightSidebarWasCollapsed: ${this.rightSidebarWasCollapsed}`
+        );
+        console.log(
+            `real leftSplit.collapsed: ${this.app.workspace.leftSplit.collapsed}`
+        );
+        console.log(
+            `real rightSplit.collapsed: ${this.app.workspace.rightSplit.collapsed}`
+        );
+
+        if (this.sidebarIsOpen()) {
+            console.log("........collapseSidebars........");
+            this.collapseSidebars();
         } else {
-            this.enableFocusMode();
+            console.log("........restoreSidebars........");
+            this.restoreSidebars();
         }
+
+        console.log("\n\n");
+        console.log("AFTER toggle");
+        console.log(
+            `this.leftSidebarWasCollapsed: ${this.leftSidebarWasCollapsed}`
+        );
+        console.log(
+            `this.rightSidebarWasCollapsed: ${this.rightSidebarWasCollapsed}`
+        );
+        console.log(
+            `real leftSplit.collapsed: ${this.app.workspace.leftSplit.collapsed}`
+        );
+        console.log(
+            `real rightSplit.collapsed: ${this.app.workspace.rightSplit.collapsed}`
+        );
+
+        console.log("--------------------");
     }
 
     async onload() {
         console.log("Loading Focus Mode plugin ...");
 
-        this.addRibbonIcon(
-            "enter",
-            "Toggle Focus Mode (Shift + Click to show active pane only)",
-            (event): void => {
-                this.toggleFocusMode(event.shiftKey);
-            }
-        );
-
         this.addCommand({
-            id: "toggle-focus-mode",
-            name: "Toggle Focus Mode",
+            id: "toggle-sidebars",
+            name: "Toggle Sidebars",
             callback: () => {
-                this.toggleFocusMode();
+                this.toggleSidebars();
             },
-            hotkeys: [{ modifiers: ["Alt", "Mod"], key: "Z" }],
-        });
-
-        this.addCommand({
-            id: "toggle-super-focus-mode",
-            name: "Toggle Super Focus Mode (Active pane only)",
-            callback: () => {
-                this.toggleFocusMode(true);
-            },
-            hotkeys: [{ modifiers: ["Alt", "Mod", "Shift"], key: "Z" }],
         });
     }
 

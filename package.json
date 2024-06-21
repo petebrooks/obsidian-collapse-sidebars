@@ -10,7 +10,7 @@
     "keywords": [],
     "author": "",
     "license": "MPL-2.0",
-    "repository": "https://github.com/petebrooks/obsidian-toggle-sidebars",
+    "repository": "https://github.com/petelouise/obsidian-toggle-sidebars",
     "devDependencies": {
         "@rollup/plugin-commonjs": "^18.0.0",
         "@rollup/plugin-node-resolve": "^11.2.1",

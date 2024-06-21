@@ -75,13 +75,6 @@ export default class FocusMode extends Plugin {
         if (!this.rightSidebarWasCollapsed) {
             this.app.workspace.rightSplit.expand();
         }
-
-        Array.from(document.querySelectorAll(".workspace-split")).forEach(
-            (node) => {
-                const theNode = node as HTMLElement;
-                theNode.style.display = "flex";
-            }
-        );
     }
 
     toggleSidebars() {

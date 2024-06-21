@@ -15,14 +15,6 @@ export default class FocusMode extends Plugin {
         this.leftSidebarWasCollapsed = this.app.workspace.leftSplit.collapsed;
         this.rightSidebarWasCollapsed = this.app.workspace.rightSplit.collapsed;
 
-        this.app.on("active-leaf-change", () => {
-            try {
-                this.app.workspace.activeLeaf.view.editor.blur();
-                this.app.workspace.activeLeaf.view.editor.focus();
-                this.app.workspace.activeLeaf.view.editor.refresh();
-            } catch (ignore) {}
-        });
-
         this.app.workspace.leftSplit.collapse();
         this.app.workspace.rightSplit.collapse();
     }

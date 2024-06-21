@@ -1,10 +1,10 @@
 {
-    "id": "obsidian-focus-mode",
-    "name": "Focus Mode",
+    "id": "obsidian-collapse-sidebars",
+    "name": "Collapse Sidebars",
     "version": "1.11.4",
     "minAppVersion": "0.9.12",
-    "description": "Add Focus Mode to Obsidian.",
-    "author": "ryanpcmcquen",
-    "authorUrl": "https://github.com/ryanpcmcquen",
+    "description": "Collapse both sidebars in Obsidian with one hotkey",
+    "author": "petelouise",
+    "authorUrl": "https://github.com/petelouise",
     "isDesktopOnly": true
 }

@@ -45,45 +45,11 @@ export default class FocusMode extends Plugin {
     }
 
     toggleSidebars() {
-        console.log("\n\n\n\n\n");
-        console.log("BEFORE toggle");
-        console.log(
-            `this.leftSidebarWasCollapsed: ${this.leftSidebarWasCollapsed}`
-        );
-        console.log(
-            `this.rightSidebarWasCollapsed: ${this.rightSidebarWasCollapsed}`
-        );
-        console.log(
-            `real leftSplit.collapsed: ${this.app.workspace.leftSplit.collapsed}`
-        );
-        console.log(
-            `real rightSplit.collapsed: ${this.app.workspace.rightSplit.collapsed}`
-        );
-
         if (this.sidebarIsOpen()) {
-            console.log("........collapseSidebars........");
             this.collapseSidebars();
         } else {
-            console.log("........restoreSidebars........");
             this.restoreSidebars();
         }
-
-        console.log("\n\n");
-        console.log("AFTER toggle");
-        console.log(
-            `this.leftSidebarWasCollapsed: ${this.leftSidebarWasCollapsed}`
-        );
-        console.log(
-            `this.rightSidebarWasCollapsed: ${this.rightSidebarWasCollapsed}`
-        );
-        console.log(
-            `real leftSplit.collapsed: ${this.app.workspace.leftSplit.collapsed}`
-        );
-        console.log(
-            `real rightSplit.collapsed: ${this.app.workspace.rightSplit.collapsed}`
-        );
-
-        console.log("--------------------");
     }
 
     async onload() {

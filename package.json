@@ -1,7 +1,7 @@
 {
-    "name": "obsidian-collapse-sidebars",
-    "version": "0.0.1",
-    "description": "Collapse both sidebars in Obsidian with one hotkey",
+    "name": "obsidian-toggle-sidebars",
+    "version": "1.0.0",
+    "description": "Toggle both sidebars in Obsidian with one hotkey",
     "main": "main.js",
     "scripts": {
         "dev": "rollup --config rollup.config.js -w",
@@ -10,7 +10,7 @@
     "keywords": [],
     "author": "",
     "license": "MPL-2.0",
-    "repository": "https://github.com/petebrooks/obsidian-collapse-sidebars",
+    "repository": "https://github.com/petebrooks/obsidian-toggle-sidebars",
     "devDependencies": {
         "@rollup/plugin-commonjs": "^18.0.0",
         "@rollup/plugin-node-resolve": "^11.2.1",

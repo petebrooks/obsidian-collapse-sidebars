@@ -1,13 +1,6 @@
 import { Plugin } from "obsidian";
 
 export default class FocusMode extends Plugin {
-    collapseSidebarsActive = false;
-
-    maximisedClass = "maximised";
-    focusModeClass = "focus-mode";
-    superFocusModeClass = "super-focus-mode";
-    sidebarCollapsedClass = "sidebars-collapsed";
-
     leftSidebarWasCollapsed: boolean;
     rightSidebarWasCollapsed: boolean;
 

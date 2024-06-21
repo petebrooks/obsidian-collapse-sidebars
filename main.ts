@@ -11,26 +11,26 @@ export default class FocusMode extends Plugin {
     leftSidebarWasCollapsed: boolean;
     rightSidebarWasCollapsed: boolean;
 
-    removeExtraneousClasses() {
-        if (
-            // @ts-ignore
-            this.app.workspace.rootSplit.containerEl.hasClass(
-                this.maximisedClass
-            )
-        ) {
-            // @ts-ignore
-            this.app.workspace.rootSplit.containerEl.removeClass(
-                this.maximisedClass
-            );
+    // removeExtraneousClasses() {
+    //     if (
+    //         // @ts-ignore
+    //         this.app.workspace.rootSplit.containerEl.hasClass(
+    //             this.maximisedClass
+    //         )
+    //     ) {
+    //         // @ts-ignore
+    //         this.app.workspace.rootSplit.containerEl.removeClass(
+    //             this.maximisedClass
+    //         );
 
-            // @ts-ignore
-            this.app.workspace.onLayoutChange();
-        }
+    //         // @ts-ignore
+    //         this.app.workspace.onLayoutChange();
+    //     }
 
-        if (document.body.classList.contains(this.superFocusModeClass)) {
-            document.body.classList.remove(this.superFocusModeClass);
-        }
-    }
+    //     if (document.body.classList.contains(this.superFocusModeClass)) {
+    //         document.body.classList.remove(this.superFocusModeClass);
+    //     }
+    // }
 
     sidebarIsOpen() {
         return (
@@ -61,13 +61,9 @@ export default class FocusMode extends Plugin {
 
         this.app.workspace.leftSplit.collapse();
         this.app.workspace.rightSplit.collapse();
-
-        this.removeExtraneousClasses();
     }
 
     restoreSidebars() {
-        this.removeExtraneousClasses();
-
         // if (document.body.classList.contains(this.focusModeClass)) {
         //     document.body.classList.remove(this.focusModeClass);
         // }
@@ -131,7 +127,7 @@ export default class FocusMode extends Plugin {
     }
 
     async onload() {
-        console.log("Loading Focus Mode plugin ...");
+        console.log("loading sidebar toggle plugin ...");
 
         this.addCommand({
             id: "toggle-sidebars",
@@ -143,6 +139,6 @@ export default class FocusMode extends Plugin {
     }
 
     onunload() {
-        console.log("Unloading Focus Mode plugin ...");
+        console.log("unloading sidebar toggle plugin ...");
     }
 }

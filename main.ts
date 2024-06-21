@@ -11,27 +11,6 @@ export default class FocusMode extends Plugin {
     leftSidebarWasCollapsed: boolean;
     rightSidebarWasCollapsed: boolean;
 
-    // removeExtraneousClasses() {
-    //     if (
-    //         // @ts-ignore
-    //         this.app.workspace.rootSplit.containerEl.hasClass(
-    //             this.maximisedClass
-    //         )
-    //     ) {
-    //         // @ts-ignore
-    //         this.app.workspace.rootSplit.containerEl.removeClass(
-    //             this.maximisedClass
-    //         );
-
-    //         // @ts-ignore
-    //         this.app.workspace.onLayoutChange();
-    //     }
-
-    //     if (document.body.classList.contains(this.superFocusModeClass)) {
-    //         document.body.classList.remove(this.superFocusModeClass);
-    //     }
-    // }
-
     sidebarIsOpen() {
         return (
             !this.app.workspace.leftSplit.collapsed ||
@@ -43,31 +22,19 @@ export default class FocusMode extends Plugin {
         this.leftSidebarWasCollapsed = this.app.workspace.leftSplit.collapsed;
         this.rightSidebarWasCollapsed = this.app.workspace.rightSplit.collapsed;
 
-        // @ts-ignore
         this.app.on("active-leaf-change", () => {
             try {
-                // @ts-ignore
                 this.app.workspace.activeLeaf.view.editor.blur();
-                // @ts-ignore
                 this.app.workspace.activeLeaf.view.editor.focus();
-                // @ts-ignore
                 this.app.workspace.activeLeaf.view.editor.refresh();
             } catch (ignore) {}
         });
-
-        // if (!document.body.classList.contains(this.focusModeClass)) {
-        //     this.storeSplitsValues();
-        // }
 
         this.app.workspace.leftSplit.collapse();
         this.app.workspace.rightSplit.collapse();
     }
 
     restoreSidebars() {
-        // if (document.body.classList.contains(this.focusModeClass)) {
-        //     document.body.classList.remove(this.focusModeClass);
-        // }
-
         if (!this.leftSidebarWasCollapsed) {
             this.app.workspace.leftSplit.expand();
         }
